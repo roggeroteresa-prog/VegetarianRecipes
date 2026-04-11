@@ -1,34 +1,47 @@
-import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { searchRecipes } from "../api/spoonacular";
 import RecipeCard from "../components/RecipeCard";
-import Loader from "../components/Loader";
 
 export default function Results() {
-  const [params] = useSearchParams();
-  const query = params.get("query") || "";
-  const [recipes, setRecipes] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get("query") || "";
+  const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!query) return;
-    setLoading(true);
-    searchRecipes(query)
-      .then((res) => setRecipes(res.data.results || []))
-      .finally(() => setLoading(false));
+    async function fetchData() {
+      try {
+        setLoading(true);
+        const data = await searchRecipes(query);
+
+        // Protezione contro errori API
+        setResults(data?.results || []);
+      } catch (error) {
+        console.error("Errore durante la ricerca:", error);
+        setResults([]);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    if (query) fetchData();
   }, [query]);
 
+  if (loading) return <p>Caricamento...</p>;
+
   return (
-    <div className="page results">
+    <div>
       <h2>Risultati per: {query}</h2>
-      {loading && <Loader />}
-      {!loading && recipes.length === 0 && (
-        <p>Nessuna ricetta trovata. Prova con un’altra parola chiave.</p>
-      )}
+
       <div className="grid">
-        {recipes.map((r) => (
-          <RecipeCard key={r.id} recipe={r} />
-        ))}
+        {results.length > 0 ? (
+          results.map((recipe) => (
+            <RecipeCard key={recipe.id} recipe={recipe} />
+          ))
+        ) : (
+          <p>Nessun risultato trovato.</p>
+        )}
       </div>
     </div>
   );
