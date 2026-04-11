@@ -2,18 +2,18 @@ import { Link } from "react-router-dom";
 import { useFavorites } from "../context/FavoritesContext";
 
 export default function RecipeCard({ recipe }) {
-  const { isFavorite, toggleFavorite } = useFavorites();
   const favorites = useFavorites();
 
-if (!favorites) {
-  return null; // evita il crash
-}
+  // Se il contesto non è pronto, evita il crash
+  if (!favorites) {
+    return null;
+  }
 
-const { isFavorite, toggleFavorite } = favorites;
-
+  const { isFavorite, toggleFavorite } = favorites;
+  const favorite = isFavorite(recipe.id);
 
   const handleFavoriteClick = (e) => {
-    e.preventDefault(); // evita la navigazione quando clicchi il cuore
+    e.preventDefault();
     toggleFavorite(recipe);
   };
 
