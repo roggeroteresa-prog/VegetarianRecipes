@@ -3,7 +3,14 @@ import { useFavorites } from "../context/FavoritesContext";
 
 export default function RecipeCard({ recipe }) {
   const { isFavorite, toggleFavorite } = useFavorites();
-  const favorite = isFavorite(recipe.id);
+  const favorites = useFavorites();
+
+if (!favorites) {
+  return null; // evita il crash
+}
+
+const { isFavorite, toggleFavorite } = favorites;
+
 
   const handleFavoriteClick = (e) => {
     e.preventDefault(); // evita la navigazione quando clicchi il cuore
