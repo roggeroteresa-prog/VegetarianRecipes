@@ -4,6 +4,13 @@ import RecipeCard from "../components/RecipeCard";
 export default function Favorites() {
   const { favorites } = useFavorites();
 
+  // Se il contesto non è pronto, evita il crash
+  if (!favorites) {
+    return null;
+  }
+
+  const { isFavorite, toggleFavorite } = favorites;
+
   return (
     <div className="page favorites">
       <h1>Ricette preferite</h1>
