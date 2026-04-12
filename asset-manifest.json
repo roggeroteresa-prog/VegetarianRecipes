@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/VegetarianRecipes/static/css/main.c4d35640.css",
-    "main.js": "/VegetarianRecipes/static/js/main.6c13294e.js",
+    "main.js": "/VegetarianRecipes/static/js/main.99717ad5.js",
     "index.html": "/VegetarianRecipes/index.html",
     "main.c4d35640.css.map": "/VegetarianRecipes/static/css/main.c4d35640.css.map",
-    "main.6c13294e.js.map": "/VegetarianRecipes/static/js/main.6c13294e.js.map"
+    "main.99717ad5.js.map": "/VegetarianRecipes/static/js/main.99717ad5.js.map"
   },
   "entrypoints": [
     "static/css/main.c4d35640.css",
-    "static/js/main.6c13294e.js"
+    "static/js/main.99717ad5.js"
   ]
 }
