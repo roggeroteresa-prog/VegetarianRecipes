@@ -9,7 +9,8 @@ export default function Favorites() {
     return null;
   }
 
-  const { isFavorite, toggleFavorite } = favorites;
+  // isFavorite e toggleFavorite non servono qui: RecipeCard li recupera
+  // già da sé chiamando useFavorites() internamente
 
   return (
     <div className="page favorites">
