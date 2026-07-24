@@ -1,0 +1,14 @@
+# dependencies
+node_modules/
+
+# production build
+build/
+
+# environment variables (secrets)
+.env
+.env.local
+.env.*.local
+
+# editor/OS
+.DS_Store
+.vscode/

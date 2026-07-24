@@ -1,0 +1,37 @@
+# L'app è solo front end (nessun back end proprio: le chiamate vanno
+# direttamente all'API esterna di Spoonacular). Il compose definisce
+# quindi due varianti dello stesso servizio, utili in momenti diversi
+# del ciclo DevOps:
+#
+#   web        -> dev server CRA con hot-reload, per lo sviluppo locale
+#   web-preview -> build di produzione servita da Nginx, per validare
+#                  in locale ciò che verrà effettivamente deployato
+#                  (equivalente a un ambiente di staging locale)
+
+services:
+  web:
+    build:
+      context: .
+      target: build
+    working_dir: /app
+    command: npm start
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    env_file:
+      - .env
+    environment:
+      - CHOKIDAR_USEPOLLING=true # hot-reload affidabile anche in container
+
+  web-preview:
+    build:
+      context: .
+      target: production
+      args:
+        REACT_APP_SPOONACULAR_KEY: ${REACT_APP_SPOONACULAR_KEY}
+    ports:
+      - "8080:80"
+    env_file:
+      - .env
