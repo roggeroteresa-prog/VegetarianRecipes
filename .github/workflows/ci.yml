@@ -6,6 +6,15 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
   lint:
     name: Lint
@@ -43,3 +52,41 @@ jobs:
           build-args: |
             REACT_APP_SPOONACULAR_KEY=${{ secrets.REACT_APP_SPOONACULAR_KEY }}
           tags: vegetarian-recipes:ci
+
+  deploy:
+    name: Deploy su GitHub Pages
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout del codice
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Installazione dipendenze
+        run: npm ci
+
+      - name: Build di produzione
+        run: npm run build
+        env:
+          REACT_APP_SPOONACULAR_KEY: ${{ secrets.REACT_APP_SPOONACULAR_KEY }}
+
+      - name: Configura Pages
+        uses: actions/configure-pages@v5
+
+      - name: Carica l'artifact della build
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./build
+
+      - name: Deploy su GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
