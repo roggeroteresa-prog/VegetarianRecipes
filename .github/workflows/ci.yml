@@ -51,6 +51,7 @@ jobs:
           push: false
           build-args: |
             REACT_APP_SPOONACULAR_KEY=${{ secrets.REACT_APP_SPOONACULAR_KEY }}
+            REACT_APP_SENTRY_DSN=${{ secrets.REACT_APP_SENTRY_DSN }}
           tags: vegetarian-recipes:ci
 
   deploy:
@@ -78,6 +79,7 @@ jobs:
         run: npm run build
         env:
           REACT_APP_SPOONACULAR_KEY: ${{ secrets.REACT_APP_SPOONACULAR_KEY }}
+          REACT_APP_SENTRY_DSN: ${{ secrets.REACT_APP_SENTRY_DSN }}
 
       - name: Configura Pages
         uses: actions/configure-pages@v5

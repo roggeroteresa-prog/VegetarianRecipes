@@ -31,6 +31,7 @@ services:
       target: production
       args:
         REACT_APP_SPOONACULAR_KEY: ${REACT_APP_SPOONACULAR_KEY}
+        REACT_APP_SENTRY_DSN: ${REACT_APP_SENTRY_DSN}
     ports:
       - "8080:80"
     env_file:

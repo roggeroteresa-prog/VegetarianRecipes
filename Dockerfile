@@ -14,6 +14,8 @@ COPY . .
 # Build di produzione (variabili REACT_APP_* devono essere presenti a build-time)
 ARG REACT_APP_SPOONACULAR_KEY
 ENV REACT_APP_SPOONACULAR_KEY=$REACT_APP_SPOONACULAR_KEY
+ARG REACT_APP_SENTRY_DSN
+ENV REACT_APP_SENTRY_DSN=$REACT_APP_SENTRY_DSN
 RUN npm run build
 
 # ---- Stage 2: serve ----
