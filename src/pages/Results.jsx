@@ -13,10 +13,10 @@ export default function Results() {
     async function fetchData() {
       try {
         setLoading(true);
-        const data = await searchRecipes(query);
+        const response = await searchRecipes(query);
 
         // Protezione contro errori API
-        setResults(data?.results || []);
+        setResults(response?.data?.results || []);
       } catch (error) {
         console.error("Errore durante la ricerca:", error);
         setResults([]);
